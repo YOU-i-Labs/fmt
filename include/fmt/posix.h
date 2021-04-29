@@ -21,8 +21,10 @@
 
 #include <cstddef>
 
+#if !defined __ORBIS__
 #if defined __APPLE__ || defined(__FreeBSD__)
 # include <xlocale.h>  // for LC_NUMERIC_MASK on OS X
+#endif
 #endif
 
 #include "format.h"
@@ -241,6 +243,7 @@ class file {
   // Attempts to write count bytes from the specified buffer to the file.
   FMT_API std::size_t write(const void *buffer, std::size_t count);
 
+#if !defined __ORBIS__
   // Duplicates a file descriptor with the dup function and returns
   // the duplicate as a file object.
   FMT_API static file dup(int fd);
@@ -256,14 +259,17 @@ class file {
   // Creates a pipe setting up read_end and write_end file objects for reading
   // and writing respectively.
   FMT_API static void pipe(file &read_end, file &write_end);
+#endif
 
   // Creates a buffered_file object associated with this file and detaches
   // this file object from the file.
   FMT_API buffered_file fdopen(const char *mode);
 };
 
+#if !defined __ORBIS__
 // Returns the memory page size.
 long getpagesize();
+#endif
 
 #if (defined(LC_NUMERIC_MASK) || defined(_MSC_VER)) && \
     !defined(__ANDROID__) && !defined(__CYGWIN__) && !defined(__OpenBSD__) && \
