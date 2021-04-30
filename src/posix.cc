@@ -169,6 +169,7 @@ std::size_t file::write(const void *buffer, std::size_t count) {
   return internal::to_unsigned(result);
 }
 
+#if !defined __ORBIS__
 file file::dup(int fd) {
   // Don't retry as dup doesn't return EINTR.
   // http://pubs.opengroup.org/onlinepubs/009695399/functions/dup.html
@@ -216,6 +217,7 @@ void file::pipe(file &read_end, file &write_end) {
   read_end = file(fds[0]);
   write_end = file(fds[1]);
 }
+#endif
 
 buffered_file file::fdopen(const char *mode) {
   // Don't retry as fdopen doesn't return EINTR.
@@ -228,6 +230,7 @@ buffered_file file::fdopen(const char *mode) {
   return bf;
 }
 
+#if !defined __ORBIS__
 long getpagesize() {
 #ifdef _WIN32
   SYSTEM_INFO si;
@@ -240,5 +243,6 @@ long getpagesize() {
   return size;
 #endif
 }
+#endif
 FMT_END_NAMESPACE
 
