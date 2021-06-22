@@ -169,7 +169,7 @@ std::size_t file::write(const void *buffer, std::size_t count) {
   return internal::to_unsigned(result);
 }
 
-#if !defined __ORBIS__
+#if !defined(__ORBIS__) && !defined(__PROSPERO__)
 file file::dup(int fd) {
   // Don't retry as dup doesn't return EINTR.
   // http://pubs.opengroup.org/onlinepubs/009695399/functions/dup.html
@@ -230,7 +230,7 @@ buffered_file file::fdopen(const char *mode) {
   return bf;
 }
 
-#if !defined __ORBIS__
+#if !defined(__ORBIS__) && !defined(__PROSPERO__)
 long getpagesize() {
 #ifdef _WIN32
   SYSTEM_INFO si;
